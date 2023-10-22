@@ -1,11 +1,11 @@
 {
-    "name": "block_genius",
-    "short_name": "block_genius",
+    "name": "Block Genius",
+    "short_name": "Block Genius",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#FFF",
     "theme_color": "#FFF",
-    "description": "A new Flutter project.",
+    "description": "Susun gambar rajah blok.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
