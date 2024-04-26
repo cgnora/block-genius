@@ -39,36 +39,39 @@ class MainPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: GridView.count(
-            crossAxisCount: (width / 200).floor(),
-            children: all.map((e) {
-              return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                QuizPage(title: e.name, list: e.list)));
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FractionallySizedBox(
-                            widthFactor: 0.8,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset('assets/${e.img}.png'),
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          FittedBox(child: Text(e.name))
-                        ]),
-                  ));
-            }).toList()),
+          crossAxisCount: (width / 200).floor(),
+          children: all.map((e) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            QuizPage(title: e.name, list: e.list)));
+              },
+              child: Container(
+                margin: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FractionallySizedBox(
+                      widthFactor: 0.8,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset('assets/${e.img}.png'),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    FittedBox(child: Text(e.name)),
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
@@ -77,7 +80,11 @@ class MainPage extends StatelessWidget {
 class QuizPage extends StatefulWidget {
   final String title;
   final List list;
-  const QuizPage({super.key, required this.title, required this.list});
+  const QuizPage({
+    super.key,
+    required this.title,
+    required this.list,
+  });
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -146,34 +153,36 @@ class _QuizPageState extends State<QuizPage> {
           Padding(
             padding: const EdgeInsets.only(right: 5),
             child: IconButton(
-                onPressed: () {
-                  score = 0;
-                  setState(() {
-                    input = [];
-                    process = [];
-                    output = [];
-                    answers = shuffleAnswers(List.from(widget.list));
-                  });
-                },
-                icon: const Icon(Icons.refresh)),
+              onPressed: () {
+                score = 0;
+                setState(() {
+                  input = [];
+                  process = [];
+                  output = [];
+                  answers = shuffleAnswers(List.from(widget.list));
+                });
+              },
+              icon: const Icon(Icons.refresh),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: OutlinedButton(
-                onPressed: () {
-                  String text = '';
-                  if (answers.isNotEmpty) {
-                    text = 'Answer correctly!';
-                  } else {
-                    checkAnswer();
-                    text = 'Score: $score / $total';
-                  }
-                  var snackbar = SnackBar(content: Text(text));
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(snackbar);
-                },
-                child: const Text('Submit')),
+              onPressed: () {
+                String text = '';
+                if (answers.isNotEmpty) {
+                  text = 'Answer correctly!';
+                } else {
+                  checkAnswer();
+                  text = 'Score: $score / $total';
+                }
+                var snackbar = SnackBar(content: Text(text));
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(snackbar);
+              },
+              child: const Text('Submit'),
+            ),
           )
         ],
       ),
@@ -190,41 +199,45 @@ class _QuizPageState extends State<QuizPage> {
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          color: Colors.yellow[50],
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all()),
+                        color: Colors.yellow[50],
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(),
+                      ),
                       child: Row(
                         children: [
                           QuizFlexbox(
-                              title: 'Input',
-                              list: input,
-                              onAccept: (data) {
-                                removeAll(data);
-                                input.add(data);
-                              }),
+                            title: 'Input',
+                            list: input,
+                            onAccept: (data) {
+                              removeAll(data);
+                              input.add(data);
+                            },
+                          ),
                           const VerticalDivider(
                             color: Colors.red,
                             width: 20,
                           ),
                           QuizFlexbox(
-                              title: 'Proses',
-                              list: process,
-                              onAccept: (data) {
-                                removeAll(data);
-                                process.add(data);
-                              }),
+                            title: 'Proses',
+                            list: process,
+                            onAccept: (data) {
+                              removeAll(data);
+                              process.add(data);
+                            },
+                          ),
                           const VerticalDivider(
                             color: Colors.red,
                             width: 20,
                           ),
                           QuizFlexbox(
-                              title: 'Output',
-                              flex: 1,
-                              list: output,
-                              onAccept: (data) {
-                                removeAll(data);
-                                output.add(data);
-                              }),
+                            title: 'Output',
+                            flex: 1,
+                            list: output,
+                            onAccept: (data) {
+                              removeAll(data);
+                              output.add(data);
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -233,12 +246,13 @@ class _QuizPageState extends State<QuizPage> {
                     SizedBox(
                       width: 150,
                       child: AnswerList(
-                          list: answers,
-                          onAccept: (data) {
-                            removeAll(data);
-                            answers.add(data);
-                          }),
-                    )
+                        list: answers,
+                        onAccept: (data) {
+                          removeAll(data);
+                          answers.add(data);
+                        },
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -246,13 +260,14 @@ class _QuizPageState extends State<QuizPage> {
               SizedBox(
                 height: 60,
                 child: AnswerList(
-                    list: answers,
-                    horizontal: true,
-                    onAccept: (data) {
-                      removeAll(data);
-                      answers.add(data);
-                    }),
-              )
+                  list: answers,
+                  horizontal: true,
+                  onAccept: (data) {
+                    removeAll(data);
+                    answers.add(data);
+                  },
+                ),
+              ),
           ],
         ),
       ),
@@ -264,11 +279,12 @@ class AnswerList extends StatefulWidget {
   final List list;
   final dynamic onAccept;
   final bool horizontal;
-  const AnswerList(
-      {super.key,
-      required this.list,
-      required this.onAccept,
-      this.horizontal = false});
+  const AnswerList({
+    super.key,
+    required this.list,
+    required this.onAccept,
+    this.horizontal = false,
+  });
 
   @override
   State<AnswerList> createState() => _AnswerListState();
@@ -285,20 +301,22 @@ class _AnswerListState extends State<AnswerList> {
       child: DottedBorder(
         dashPattern: const [10],
         child: DragTarget(
-            builder: (context, candidateData, rejectedData) {
-              return ListView(
-                  scrollDirection:
-                      widget.horizontal ? Axis.horizontal : Axis.vertical,
-                  children: widget.list.map((e) {
-                    return Draggable(
-                      data: e,
-                      feedback: AnswerBox(text: e.val),
-                      childWhenDragging: Container(),
-                      child: AnswerBox(text: e.val),
-                    );
-                  }).toList());
-            },
-            onAcceptWithDetails: widget.onAccept),
+          builder: (context, candidateData, rejectedData) {
+            return ListView(
+              scrollDirection:
+                  widget.horizontal ? Axis.horizontal : Axis.vertical,
+              children: widget.list.map((e) {
+                return Draggable(
+                  data: e,
+                  feedback: AnswerBox(text: e.val),
+                  childWhenDragging: Container(),
+                  child: AnswerBox(text: e.val),
+                );
+              }).toList(),
+            );
+          },
+          onAcceptWithDetails: widget.onAccept,
+        ),
       ),
     );
   }
@@ -309,12 +327,13 @@ class QuizFlexbox extends StatefulWidget {
   final int flex;
   final List list;
   final dynamic onAccept;
-  const QuizFlexbox(
-      {super.key,
-      required this.title,
-      this.flex = 1,
-      required this.list,
-      required this.onAccept});
+  const QuizFlexbox({
+    super.key,
+    required this.title,
+    this.flex = 1,
+    required this.list,
+    required this.onAccept,
+  });
 
   @override
   State<QuizFlexbox> createState() => _QuizFlexboxState();
@@ -328,47 +347,51 @@ class _QuizFlexboxState extends State<QuizFlexbox> {
       child: Column(
         children: [
           Container(
-              height: 25,
-              width: 100,
-              decoration: BoxDecoration(
-                  color: Colors.green[200],
-                  borderRadius: BorderRadius.circular(10)),
-              child: Center(
-                  child: Text(
+            height: 25,
+            width: 100,
+            decoration: BoxDecoration(
+                color: Colors.green[200],
+                borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: Text(
                 widget.title,
                 style: const TextStyle(fontSize: 10),
-              ))),
+              ),
+            ),
+          ),
           Expanded(
             flex: 1,
             child: Center(
               child: Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  padding: const EdgeInsets.all(4),
-                  child: DottedBorder(
-                    color: Colors.green,
-                    dashPattern: const [10],
-                    child: DragTarget(
-                      onAcceptWithDetails: widget.onAccept,
-                      builder: (context, candidateData, rejectedData) {
-                        return ListView(
-                          children: widget.list.map((e) {
-                            return Draggable(
-                              data: e,
-                              feedback: AnswerBox(text: e.val),
-                              childWhenDragging: Container(),
-                              child: AnswerBox(
-                                  text: e.val,
-                                  color: e.status == AnswerStatus.correct
-                                      ? Colors.green
-                                      : (e.status == AnswerStatus.wrong
-                                          ? Colors.red
-                                          : Colors.black)),
-                            );
-                          }).toList(),
-                        );
-                      },
-                    ),
-                  )),
+                margin: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.all(4),
+                child: DottedBorder(
+                  color: Colors.green,
+                  dashPattern: const [10],
+                  child: DragTarget(
+                    onAcceptWithDetails: widget.onAccept,
+                    builder: (context, candidateData, rejectedData) {
+                      return ListView(
+                        children: widget.list.map((e) {
+                          return Draggable(
+                            data: e,
+                            feedback: AnswerBox(text: e.val),
+                            childWhenDragging: Container(),
+                            child: AnswerBox(
+                              text: e.val,
+                              color: e.status == AnswerStatus.correct
+                                  ? Colors.green
+                                  : (e.status == AnswerStatus.wrong
+                                      ? Colors.red
+                                      : Colors.black),
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    },
+                  ),
+                ),
+              ),
             ),
           ),
         ],
@@ -397,12 +420,14 @@ class _AnswerBoxState extends State<AnswerBox> {
       decoration: BoxDecoration(
           border: Border.all(color: widget.color), color: Colors.white),
       child: Center(
-          child: DefaultTextStyle(
-              style: const TextStyle(color: Colors.black, fontSize: 12),
-              child: Text(
-                widget.text,
-                textAlign: TextAlign.center,
-              ))),
+        child: DefaultTextStyle(
+          style: const TextStyle(color: Colors.black, fontSize: 12),
+          child: Text(
+            widget.text,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
     );
   }
 }
